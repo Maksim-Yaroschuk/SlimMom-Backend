@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 
 const dotenv = require("dotenv");
 dotenv.config();
-
-const { HOST_DB, PORT = 3001 } = process.env;
+const { HOST_DB, PORT } = process.env;
 
 const main = async () => {
   try {
@@ -14,10 +13,10 @@ const main = async () => {
 
     await mongoose.connect(HOST_DB);
     console.log("Database connection successful");
-
     app.listen(PORT, (err) => {
       if (err) throw err;
       console.log(`Server is listening on port: ${PORT}`);
+
     });
   } catch (error) {
     console.error("Error:", error.message);
