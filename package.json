@@ -8,6 +8,9 @@
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js"
   },
+  "engines": {
+    "node": ">=16.0.0 <17.0.0"
+  },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.1.0",
@@ -46,4 +49,3 @@
   },
   "homepage": "https://github.com/Maksim-Yaroschuk/SlimMom-Backend#readme"
 }
-
