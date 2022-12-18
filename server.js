@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const app = require('./app');
 
-const {HOST_DB, PORT = 3000} = process.env;
+const {HOST_DB, PORT} = process.env;
 
     const main = async () => {
   try {
