@@ -1,20 +1,24 @@
 const { Schema, model } = require("mongoose");
 
 const productSchema = new Schema({
-    categories: {
-        type: Array,
-    },
+    categories: [{ type: String }],
     weight: {
-        type: String,
+        type: Number,
+        required: true, 
     },
     title: {
-        type: Object,
+        ru: { type: String, required: true },
+        ua: { type: String, required: true },
     },
     calories: {
-        type: String,
+        type: Number,
+        required: true, 
     },
     groupBloodNotAllowed: {
-        type: Array,
+        1: { type: Boolean, required: true },
+        2: { type: Boolean, required: true },
+        3: { type: Boolean, required: true },
+        4: { type: Boolean, required: true },
     },
 });
 

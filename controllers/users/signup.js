@@ -5,8 +5,8 @@ const { User } = require("../../models");
 
 const signup = async (req, res) => {
     const { name, email, password } = req.body;
-    const user = await User.findOne({email});
-    if(user) {
+    const user = await User.findOne({ email });
+    if (user) {
         throw new Conflict(`User with ${email} already exist`);
     }
     
@@ -20,9 +20,9 @@ const signup = async (req, res) => {
             user: {
                 email: result.email,
                 name: result.name,
-            }
+            },
         }
-    })
-}
+    });
+};
 
 module.exports = signup;

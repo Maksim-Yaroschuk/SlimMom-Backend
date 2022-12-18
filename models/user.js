@@ -24,9 +24,9 @@ const userSchema = Schema({
       
 }, {versionKey: false, timestamps: true});
 
-userSchema.methods.comparePassword = function(password){
+userSchema.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
-}
+};
 
 const joiSignupSchema = Joi.object({
   name: Joi.string().required(),
