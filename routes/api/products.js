@@ -1,13 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const { validationBody } = require("../../middleware/validationBody");
-const { getDailyRateSchema } = require("../../middleware/validationSchemas");
-const { tryCatchWrapper } = require("../../helpers");
-const products = require("../../controllers/productsController");
+const { validation, getDailyRateSchema, ctrlWrapper  } = require("../../middlewares");
+const { products: ctrl } = require("../../controllers");
 
 // router.get("/", tryCatchWrapper(products.getAllProducts));
 
-router.get("/", validationBody(getDailyRateSchema), tryCatchWrapper(products.getDailyRateController));
+router.get("/", validation(getDailyRateSchema), ctrlWrapper(ctrl.getDailyRateController));
 
 module.exports = router;

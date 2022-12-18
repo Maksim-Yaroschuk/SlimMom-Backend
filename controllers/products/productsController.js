@@ -1,5 +1,4 @@
-const { Product } = require("../models/products.model");
-// const { createNotFoundError } = require("../helpers");
+const { Product } = require("../../models/products.model");
 
 // const getAllProducts = async (req, res) => {
 //     const allProducts = await Product.find();
