@@ -1,11 +1,10 @@
-const app = require("./app");
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const dotenv = require("dotenv");
-dotenv.config();
-const { HOST_DB, PORT } = process.env;
+const app = require('./app');
 
-const main = async () => {
+const {HOST_DB, PORT} = process.env;
+
+    const main = async () => {
   try {
     if (!HOST_DB) {
       throw new Error("HOST_DB not set!");
