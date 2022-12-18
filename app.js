@@ -1,6 +1,10 @@
-const express = require("express");
-const logger = require("morgan");
-const cors = require("cors");
+const mongoose = require('mongoose');
+const express = require('express');
+const logger = require('morgan');
+const cors = require('cors');
+const dotenv = require('dotenv');
+dotenv.config();
+mongoose.set('strictQuery', false);
 
 const authRouter = require("./routes/api/authRouter");
 const productsRouter = require("./routes/api/products");
@@ -24,3 +28,4 @@ app.use((err, _, res, __) => {
 });
 
 module.exports = app;
+
