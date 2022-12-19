@@ -8,6 +8,7 @@ mongoose.set('strictQuery', false);
 
 const authRouter = require("./routes/api/authRouter");
 const productsRouter = require("./routes/api/products");
+const myProductsRouter = require("./routes/api/myProductsRouter");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use("/api/users", authRouter);
 app.use("/api/products", productsRouter);
+app.use("/api/myProducts", myProductsRouter);
 
 app.use((_, res) => res.status(404).json({ message: "Not Found" }));
 
