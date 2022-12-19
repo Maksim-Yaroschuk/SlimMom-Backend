@@ -4,6 +4,4 @@ function createNotFoundError() {
     return err;
 };
 
-module.exports = {
-    createNotFoundError,
-};
+module.exports = createNotFoundError;

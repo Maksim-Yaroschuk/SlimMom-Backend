@@ -7,7 +7,7 @@ dotenv.config();
 mongoose.set('strictQuery', false);
 
 const authRouter = require("./routes/api/authRouter");
-const productsRouter = require("./routes/api/products");
+const productsRouter = require("./routes/api/productsRouter");
 const myProductsRouter = require("./routes/api/myProductsRouter");
 
 const app = express();
