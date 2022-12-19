@@ -1,6 +1,6 @@
-const { getNotAllowedProducts, getDailyRateController } = require("./productsController");
+const { getDailyRateController, getAllProductsByQuery } = require("./productsController");
 
 module.exports = {
-    getNotAllowedProducts,
     getDailyRateController,
+    getAllProductsByQuery,
 };

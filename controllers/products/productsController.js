@@ -1,52 +1,20 @@
-const { Product } = require("../../models/products.model");
+const { Product } = require('../../models');
+const calculateDailyRate = require("./calculateDailyRate");
+const notAllowedProductsObj = require("./notAllowedProductsObj");
+const { createNotFoundError } = require("../../middlewares");
 
-// const getAllProducts = async (req, res) => {
-//     const allProducts = await Product.find();
-//     res.status(200).json({ data: allProducts });
-// };
-
-const getNotAllowedProducts = async bloodType => {
-    const blood = [null, false, false, false, false];
-    blood[bloodType] = true;
-    const products = Product.find({
-        groupBloodNotAllowed: { $all: [blood] },
-    });
-    return products;
-};
-
-const notAllowedProductsObj = async bloodType => {
-    const notAllowedProductsArray = await getNotAllowedProducts(bloodType);
-    const arr = [];
-    notAllowedProductsArray.map(({ title }) => arr.push(title.ua));
-    let notAllowedProductsAll = [...new Set(arr)];
-    let notAllowedProducts = [];
-    const message = ['You can eat everything'];
-    if (notAllowedProductsAll[0] === undefined) {
-        notAllowedProducts = message;
-    } else {
-        do {
-            const index = Math.floor(Math.random() * notAllowedProductsAll.length);
-            if (notAllowedProducts.includes(notAllowedProductsAll[index]) || notAllowedProducts.includes('undefined')) {
-                break;
-            } else {
-                notAllowedProducts.push(notAllowedProductsAll[index]);
-            }
-        } while (notAllowedProducts.length !== 5);
-    };
-    if (notAllowedProductsAll.length === 0) {
-        notAllowedProductsAll = message;
-    };
-    const result = { notAllowedProductsAll, notAllowedProducts };
-    return result;
-};
-
-const calculateDailyRate = ({ currentWeight, height, age, desiredWeight }) => {
-    return Math.floor(
-        10 * currentWeight +
-        6.25 * height -
-        5 * age -
-        161 - 10 * (currentWeight - desiredWeight),
-    );
+const getAllProductsByQuery = async (req, res, next) => {
+    const { query: { title, limit = 10 } } = req;
+    const titleFromUrl = decodeURI(title).trim();
+    const products = await Product.find({
+        $or: [
+            { 'title.ua': { $regex: titleFromUrl, $options: 'i' } },
+        ],
+    }).limit(limit);
+    if (products.length === 0) {
+        return next(createNotFoundError());
+    }
+    return res.status(200).json({ data: products });
 };
 
 const getDailyRateController = async (req, res) => {
@@ -56,7 +24,6 @@ const getDailyRateController = async (req, res) => {
 };
 
 module.exports = {
-    // getAllProducts,
-    getNotAllowedProducts,
+    getAllProductsByQuery,
     getDailyRateController,
 };
