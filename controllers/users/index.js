@@ -1,6 +1,7 @@
 const signup = require("./signup");
 const login = require("./login");
 const getCurrent = require("./getCurrent");
+const updateById = require("./updateById");
 const logout = require("./logout");
 
 module.exports = {
@@ -8,4 +9,5 @@ module.exports = {
     login,
     getCurrent,
     logout,
+    updateById,
 };
