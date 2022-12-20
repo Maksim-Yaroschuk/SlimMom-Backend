@@ -17,10 +17,6 @@ const updateDailyRateSchema = Joi.object({
   dailyRate: Joi.number().required(),
 });
 
-// const updateDailyRateSchema = Joi.object({
-//   age: Joi.number().required(),
-// });
-
 const joiSignupSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(), 
@@ -28,6 +24,7 @@ const joiSignupSchema = Joi.object({
 });
 
 const joiLoginSchema = Joi.object({
+  name: Joi.string(),
   email: Joi.string().required(), 
   password: Joi.string().min(6).required(),
 });
