@@ -6,8 +6,8 @@ const { JWT_SECRET } = process.env;
 
 const login = async (req, res) => {
     const { email, password } = req.body;
-    console.log(email);
     const user = await User.findOne({ email });
+    const { name, infouser } = user;
     if (!user || !user.comparePassword(password)) {
         throw new Unauthorized("Email or password is wrong");
     }
@@ -20,7 +20,9 @@ const login = async (req, res) => {
         status: "success",
         code: 200,
         data: {
-            token
+            token,
+            name,
+            infouser 
         }
     });
 };
