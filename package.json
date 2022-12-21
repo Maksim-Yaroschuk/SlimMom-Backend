@@ -12,6 +12,7 @@
     "node": ">=16.0.0 <17.0.0"
   },
   "dependencies": {
+    "@joi/date": "^2.1.0",
     "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
