@@ -45,6 +45,10 @@ const userSchema = Schema({
     dailyRate: {
       type: Number,
       default: null
+    },
+    notAllowedProducts: {
+      type: [String],
+      default: null
     }, 
     notAllowedProductsAll: {
       type: [String],

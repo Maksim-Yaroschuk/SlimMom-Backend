@@ -1,6 +1,6 @@
 const Joi = require("joi").extend(require("@joi/date"));
 
-const getDailyRateSchema = Joi.object({
+const joiGetDailyRateSchema = Joi.object({
   currentWeight: Joi.number().required(),
   height: Joi.number().required(),
   age: Joi.number().required(),
@@ -8,7 +8,7 @@ const getDailyRateSchema = Joi.object({
   bloodType: Joi.number().required(),
 });
 
-const updateDailyRateSchema = Joi.object({
+const joiUpdateDailyRateSchema = Joi.object({
   currentWeight: Joi.number().required(),
   height: Joi.number().required(),
   age: Joi.number().required(),
@@ -45,8 +45,8 @@ const joiGetMyProductSchema = Joi.object({
 });
 
 module.exports = {
-  getDailyRateSchema,
-  updateDailyRateSchema,
+  joiGetDailyRateSchema,
+  joiUpdateDailyRateSchema,
   joiSignupSchema,
   joiLoginSchema,
   joiAddMyProductSchema,

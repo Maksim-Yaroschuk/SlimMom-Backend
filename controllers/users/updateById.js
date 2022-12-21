@@ -1,4 +1,3 @@
-const Joi = require('joi');
 const { NotFound } = require('http-errors');
 const { User } = require("../../models");
 
@@ -19,9 +18,6 @@ const updateById = async (req, res) => {
 }
 
   module.exports = updateById;
-
-
-
 
 //   const getDailyRateController = async (req, res) => {
 //     const dailyRate = await calculateDailyRate(req.body);

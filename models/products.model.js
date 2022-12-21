@@ -20,11 +20,6 @@ const productSchema = new Schema({
         3: { type: Boolean, required: true },
         4: { type: Boolean, required: true },
     },
-    // owner: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'user',
-    //     required: true, 
-    //   },
 });
 
 const Product = model("product", productSchema);
