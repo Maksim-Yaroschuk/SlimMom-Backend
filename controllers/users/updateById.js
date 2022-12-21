@@ -4,8 +4,8 @@ const { User } = require("../../models");
 
 const updateById = async (req, res) => {
     const { id } = req.params; 
-    const {currentWeight, height, age, desiredWeight, bloodType, dailyRate} = req.body;
-    const result = await User.findByIdAndUpdate(id, {infouser: {currentWeight, height, age, desiredWeight, bloodType, dailyRate}}, {new: true});
+    const {currentWeight, height, age, desiredWeight, bloodType, dailyRate, notAllowedProductsAll} = req.body;
+    const result = await User.findByIdAndUpdate(id, {infouser: {currentWeight, height, age, desiredWeight, bloodType, dailyRate, notAllowedProductsAll}}, {new: true});
     if(!result) {
       throw new NotFound("Not found");
     }
