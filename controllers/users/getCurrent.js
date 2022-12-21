@@ -1,7 +1,7 @@
 const { User } = require("../../models");
 
 const getCurrent = async (req, res) => {
-    const { name, email } = req.user;
+    const { name, email, infouser } = req.user;
 
     res.json({
         status: "success",
@@ -9,7 +9,8 @@ const getCurrent = async (req, res) => {
         data: {
             user: {
                 name,
-                email
+                email,
+                infouser
             }
         }
     })
