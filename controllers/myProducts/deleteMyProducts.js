@@ -1,4 +1,6 @@
 const { MyProducts } = require("../../models");
+const { NotFound, Conflict } = require("http-errors");
+const isFutureDate = require("./isFutureDate");
 const { NotFound } = require("http-errors");
 
 const deleteMyProducts = async (req, res) => {
@@ -13,7 +15,11 @@ const deleteMyProducts = async (req, res) => {
       },
     }
   );
-
+  
+  if (!isFutureDate(date)) {
+    Conflict("Wrong date (the date cannot be in the future)");
+  }
+  
   if (!product) {
     NotFound(`Product with id = ${productId} not found`);
   }

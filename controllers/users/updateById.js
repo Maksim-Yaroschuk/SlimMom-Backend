@@ -18,26 +18,3 @@ const updateById = async (req, res) => {
 }
 
   module.exports = updateById;
-
-//   const getDailyRateController = async (req, res) => {
-//     const dailyRate = await calculateDailyRate(req.body);
-//     const { notAllowedProducts, notAllowedProductsAll } = await notAllowedProductsObj(req.body.bloodType);
-//     return res.status(200).json({ 
-//         status: "success",
-//         code: 201,
-//         data: {
-//             user: {
-//                 email: result.email,
-//                 name: result.name,
-//                 currentWeight: ,
-//                 height: ,
-//                 age: ,
-//                 desiredWeight: , 
-//                 bloodType: ,
-//                 dailyRate: ,
-//                 notAllowedProducts: ,
-//                 notAllowedProductsAll: ,
-//             },
-//         }
-//     });
-// };
