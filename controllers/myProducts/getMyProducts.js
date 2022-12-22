@@ -1,6 +1,5 @@
 const { Conflict } = require("http-errors");
 const { MyProducts } = require("../../models");
-const isFutureDate = require("./isFutureDate");
 
 const getMyProducts = async (req, res) => {
   const { date } = req.body;

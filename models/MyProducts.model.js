@@ -1,10 +1,20 @@
 const { Schema, model } = require("mongoose");
 
 const productSchema = new Schema({
-  productName: {
-    type: String,
-    required: [true, "productName is required"],
-  },
+  productInfo: [
+    {
+      productWeight: {
+        type: String,
+      },
+      productCalories: {
+        type: String,
+      },
+      productName: {
+        type: String,
+        required: [true, "productName is required"],
+      },
+    },
+  ],
   date: {
     type: String,
     required: [true, "Date is required"],
@@ -13,12 +23,6 @@ const productSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
     ref: "users",
-  },
-  productWeight: {
-    type: String,
-  },
-  productCalories: {
-    type: String,
   },
 });
 
