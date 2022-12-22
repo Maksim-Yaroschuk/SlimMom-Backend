@@ -1,4 +1,4 @@
-const { BadRequest } = require("http-errors");
+const { Conflict } = require("http-errors");
 const { MyProducts } = require("../../models");
 const countCalories = require("./countCalories");
 const isFutureDate = require("./isFutureDate");
@@ -8,7 +8,7 @@ const addMyProducts = async (req, res) => {
   const { date, productName, productWeight } = req.body;
 
   if (!isFutureDate(date)) {
-    BadRequest("Wrong date (the date cannot be in the future)");
+    Conflict("Wrong date (the date cannot be in the future)");
   }
 
   const productCalories = await countCalories(productName, productWeight);
