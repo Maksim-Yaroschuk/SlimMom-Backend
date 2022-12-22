@@ -1,22 +1,28 @@
-const { BadRequest } = require("http-errors");
 const { MyProducts } = require("../../models");
 const countCalories = require("./countCalories");
-const isFutureDate = require("./isFutureDate");
 
 const addMyProducts = async (req, res) => {
   const { _id } = req.user;
-  const { date, productName, productWeight } = req.body;
-
-  if (!isFutureDate(date)) {
-    BadRequest("Wrong date (the date cannot be in the future)");
-  }
-
+  const { productName, productWeight, date } = req.body;
   const productCalories = await countCalories(productName, productWeight);
 
+  if (await MyProducts.findOne({ date })) {
+    const productAdd = await MyProducts.findOneAndUpdate(
+      { date },
+      {
+        $push: {
+          productInfo: { productCalories, productName, productWeight },
+        },
+      }
+    );
+
+    return res.status(201).json({ success: "success", code: 201, productAdd });
+  }
+
   const productAdd = await MyProducts.create({
-    ...req.body,
-    productCalories,
+    date,
     owner: _id,
+    productInfo: [{ productCalories, productName, productWeight }],
   });
 
   return res.status(201).json({

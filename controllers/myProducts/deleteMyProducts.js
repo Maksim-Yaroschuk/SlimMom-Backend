@@ -1,16 +1,19 @@
 const { MyProducts } = require("../../models");
-const { NotFound, BadRequest } = require("http-errors");
-const isFutureDate = require("./isFutureDate");
+const { NotFound } = require("http-errors");
 
 const deleteMyProducts = async (req, res) => {
   const { productId } = req.params;
-  const { date } = req.body;
+  const { data } = req.body;
 
-  const product = await MyProducts.findByIdAndRemove(productId);
+  const product = await MyProducts.findOneAndUpdate(
+    { data },
+    {
+      $pull: {
+        productInfo: { _id: productId },
+      },
+    }
+  );
 
-  if (!isFutureDate(date)) {
-    BadRequest("Wrong date (the date cannot be in the future)");
-  }
   if (!product) {
     NotFound(`Product with id = ${productId} not found`);
   }
