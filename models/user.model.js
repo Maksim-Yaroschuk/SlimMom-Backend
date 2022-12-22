@@ -20,7 +20,9 @@ const userSchema = Schema({
     type: String,
     default: null
   },
-
+  phone: {
+    type: String,
+  },
   infouser: {
     currentWeight: {
       type: Number,

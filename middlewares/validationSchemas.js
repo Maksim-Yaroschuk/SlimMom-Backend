@@ -22,6 +22,15 @@ const joiSignupSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(),
   password: Joi.string().min(6).required(),
+  phone: Joi.string(),
+  currentWeight: Joi.number(),
+  height: Joi.number(),
+  age: Joi.number(),
+  desiredWeight: Joi.number(),
+  bloodType: Joi.number(),
+  dailyRate: Joi.number(),
+  notAllowedProducts: Joi.array().items(Joi.string()),
+  notAllowedProductsAll: Joi.array().items(Joi.string()),
 });
 
 const joiLoginSchema = Joi.object({
