@@ -1,14 +1,15 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const logger = require('morgan');
-const cors = require('cors');
-const dotenv = require('dotenv');
+const mongoose = require("mongoose");
+const express = require("express");
+const logger = require("morgan");
+const cors = require("cors");
+const dotenv = require("dotenv");
 dotenv.config();
-mongoose.set('strictQuery', false);
+mongoose.set("strictQuery", false);
 
 const authRouter = require("./routes/api/authRouter");
 const productsRouter = require("./routes/api/productsRouter");
 const myProductsRouter = require("./routes/api/myProductsRouter");
+const googleAuthRouter = require("./routes/api/authGoogleRouter");
 
 const app = express();
 const swaggerUi = require('swagger-ui-express');
@@ -23,7 +24,9 @@ app.use(express.json());
 app.use("/api/users", authRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/myProducts", myProductsRouter);
+app.use("/api/auth", googleAuthRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 app.use((_, res) => res.status(404).json({ message: "Not Found" }));
 
@@ -33,4 +36,3 @@ app.use((err, _, res, __) => {
 });
 
 module.exports = app;
-
