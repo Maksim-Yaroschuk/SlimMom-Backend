@@ -7,13 +7,28 @@ const addMyProducts = async (req, res) => {
   const { productName, productWeight, date } = req.body;
   const productCalories = await countCalories(productName, productWeight);
 
+  // const findSameProductName = await MyProducts.findOne({
+  //   date,
+  //   productInfo: { $elemMatch: { productName } },
+  // });
 
-  if (!isFutureDate(date)) {
-    Conflict("Wrong date (the date cannot be in the future)");
-  }
+  // if (findSameProductName) {
+  //   console.log(findSameProductName);
+  //   const productUpdate = await MyProducts.findOneAndUpdate(
+  //     { date },
+  //     {
+  //       productInfo: { productCalories, productName, productWeight },
+  //     }
+  //   );
+
+  //   return res
+  //     .status(201)
+  //     .json({ success: "success", code: 201, productUpdate, });
+  // }
+
 
   if (await MyProducts.findOne({ date })) {
-    const productAdd = await MyProducts.findOneAndUpdate(
+    const productUpdate = await MyProducts.findOneAndUpdate(
       { date },
       {
         $push: {
@@ -23,7 +38,10 @@ const addMyProducts = async (req, res) => {
     );
 
 
-    return res.status(201).json({ success: "success", code: 201, productAdd });
+    return res
+      .status(201)
+      .json({ success: "success", code: 201, productUpdate });
+
   }
 
   const productAdd = await MyProducts.create({
