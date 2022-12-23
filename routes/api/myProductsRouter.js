@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.use(auth);
 router.post(
-  "/",
+  "/addProduct",
   validation(joiAddMyProductSchema),
   ctrlWrapper(ctrl.addMyProducts)
 );
@@ -23,7 +23,7 @@ router.delete(
   validation(joiDeleteMyProductSchema),
   ctrlWrapper(ctrl.deleteMyProducts)
 );
-router.get(
+router.post(
   "/",
   validation(joiGetMyProductSchema),
   ctrlWrapper(ctrl.getMyProducts)
