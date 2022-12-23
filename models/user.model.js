@@ -20,7 +20,9 @@ const userSchema = Schema({
     type: String,
     default: null
   },
-
+  phone: {
+    type: String,
+  },
   infouser: {
     currentWeight: {
       type: Number,
@@ -44,6 +46,10 @@ const userSchema = Schema({
     }, 
     dailyRate: {
       type: Number,
+      default: null
+    },
+    notAllowedProducts: {
+      type: [String],
       default: null
     }, 
     notAllowedProductsAll: {

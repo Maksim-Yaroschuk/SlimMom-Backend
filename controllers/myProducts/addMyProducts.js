@@ -1,3 +1,4 @@
+const { Conflict } = require("http-errors");
 const { MyProducts } = require("../../models");
 const countCalories = require("./countCalories");
 
@@ -25,6 +26,7 @@ const addMyProducts = async (req, res) => {
   //     .json({ success: "success", code: 201, productUpdate, });
   // }
 
+
   if (await MyProducts.findOne({ date })) {
     const productUpdate = await MyProducts.findOneAndUpdate(
       { date },
@@ -35,9 +37,11 @@ const addMyProducts = async (req, res) => {
       }
     );
 
+
     return res
       .status(201)
       .json({ success: "success", code: 201, productUpdate });
+
   }
 
   const productAdd = await MyProducts.create({

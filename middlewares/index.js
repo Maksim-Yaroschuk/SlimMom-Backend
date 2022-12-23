@@ -1,23 +1,24 @@
 const validation = require("./validation");
 const ctrlWrapper = require("./ctrlWrapper");
 const auth = require("./auth");
-
+const createNotFoundError = require("./createNotFoundError");
 const {
-  getDailyRateSchema,
+  joiGetDailyRateSchema,
+  joiUpdateDailyRateSchema,
   joiSignupSchema,
   joiLoginSchema,
   joiAddMyProductSchema,
   joiDeleteMyProductSchema,
   joiGetMyProductSchema,
 } = require("./validationSchemas");
-const createNotFoundError = require("./createNotFoundError");
 
 module.exports = {
   validation,
   ctrlWrapper,
   auth,
-  getDailyRateSchema,
   createNotFoundError,
+  joiGetDailyRateSchema,
+  joiUpdateDailyRateSchema,
   joiSignupSchema,
   joiLoginSchema,
   joiAddMyProductSchema,

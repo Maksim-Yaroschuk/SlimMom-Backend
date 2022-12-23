@@ -1,6 +1,6 @@
 const Joi = require("joi").extend(require("@joi/date"));
 
-const getDailyRateSchema = Joi.object({
+const joiGetDailyRateSchema = Joi.object({
   currentWeight: Joi.number().required(),
   height: Joi.number().required(),
   age: Joi.number().required(),
@@ -8,23 +8,32 @@ const getDailyRateSchema = Joi.object({
   bloodType: Joi.number().required(),
 });
 
-const updateDailyRateSchema = Joi.object({
+const joiUpdateDailyRateSchema = Joi.object({
   currentWeight: Joi.number().required(),
   height: Joi.number().required(),
   age: Joi.number().required(),
   desiredWeight: Joi.number().required(),
   bloodType: Joi.number().required(),
   dailyRate: Joi.number().required(),
+  notAllowedProductsAll: Joi.array().items(Joi.string()),
 });
 
 const joiSignupSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(),
   password: Joi.string().min(6).required(),
+  phone: Joi.string(),
+  currentWeight: Joi.number(),
+  height: Joi.number(),
+  age: Joi.number(),
+  desiredWeight: Joi.number(),
+  bloodType: Joi.number(),
+  dailyRate: Joi.number(),
+  notAllowedProducts: Joi.array().items(Joi.string()),
+  notAllowedProductsAll: Joi.array().items(Joi.string()),
 });
 
 const joiLoginSchema = Joi.object({
-  name: Joi.string(),
   email: Joi.string().required(), 
   password: Joi.string().min(6).required(),
 });
@@ -44,8 +53,8 @@ const joiGetMyProductSchema = Joi.object({
 });
 
 module.exports = {
-  getDailyRateSchema,
-  updateDailyRateSchema,
+  joiGetDailyRateSchema,
+  joiUpdateDailyRateSchema,
   joiSignupSchema,
   joiLoginSchema,
   joiAddMyProductSchema,
