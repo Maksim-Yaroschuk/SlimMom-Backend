@@ -12,6 +12,8 @@ const myProductsRouter = require("./routes/api/myProductsRouter");
 const googleAuthRouter = require("./routes/api/authGoogleRouter");
 
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
@@ -23,6 +25,8 @@ app.use("/api/users", authRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/myProducts", myProductsRouter);
 app.use("/api/auth", googleAuthRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 app.use((_, res) => res.status(404).json({ message: "Not Found" }));
 

@@ -29,6 +29,7 @@
     "nanoid": "^3.3.4",
     "query-string": "^8.1.0",
     "uid": "^2.0.1"
+    "swagger-ui-express": "^4.6.0"
   },
   "devDependencies": {
     "eslint": "7.19.0",
