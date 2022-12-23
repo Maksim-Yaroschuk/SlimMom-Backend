@@ -11,7 +11,7 @@ const productsRouter = require("./routes/api/productsRouter");
 const myProductsRouter = require("./routes/api/myProductsRouter");
 
 const app = express();
-const swaggerUi = require('swagger-ui-express');
+const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require('./swagger.json');
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
