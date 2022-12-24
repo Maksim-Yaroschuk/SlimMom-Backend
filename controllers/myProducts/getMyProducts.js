@@ -1,4 +1,3 @@
-const { Conflict } = require("http-errors");
 const { MyProducts } = require("../../models");
 
 const getMyProducts = async (req, res) => {
