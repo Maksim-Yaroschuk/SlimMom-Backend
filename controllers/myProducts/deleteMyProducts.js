@@ -14,6 +14,12 @@ const deleteMyProducts = async (req, res) => {
     }
   );
 
+  if(product.productInfo.length === 0) {
+    await MyProducts.findOneAndDelete(
+      { date },
+    );
+  }
+
   if (!product) {
     NotFound(`Product with id = ${productId} not found`);
   }
