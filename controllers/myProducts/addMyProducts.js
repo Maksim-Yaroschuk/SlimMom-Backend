@@ -29,22 +29,22 @@ const addMyProducts = async (req, res) => {
   // }
 
 
-  // if (await MyProducts.findOne({ date })) {
-  //   const productUpdate = await MyProducts.findOneAndUpdate(
-  //     { date },
-  //     {
-  //       $push: {
-  //         productInfo: { productCalories, productName, productWeight },
-  //       },
-  //     }
-  //   );
+  if (await MyProducts.findOne({ date, owner: _id })) {
+    const productUpdate = await MyProducts.findOneAndUpdate(
+      { date },
+      {
+        $push: {
+          productInfo: { productCalories, productName, productWeight },
+        },
+      }
+    );
 
 
-  //   return res
-  //     .status(201)
-  //     .json({ success: "success", code: 201, productUpdate });
+    return res
+      .status(201)
+      .json({ success: "success", code: 201, productUpdate });
 
-  // }
+  }
 
   const productAdd = await MyProducts.create({
     date,
