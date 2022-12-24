@@ -3,10 +3,10 @@ const { NotFound } = require("http-errors");
 
 const deleteMyProducts = async (req, res) => {
   const { productId } = req.params;
-  const { data } = req.body;
+  const { date } = req.body;
 
   const product = await MyProducts.findOneAndUpdate(
-    { data, productInfo: { $elemMatch: { _id: productId } } },
+    { date, productInfo: { $elemMatch: { _id: productId } } },
     {
       $pull: {
         productInfo: { _id: productId },

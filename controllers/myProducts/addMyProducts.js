@@ -36,10 +36,10 @@ const addMyProducts = async (req, res) => {
       date,
       productInfo: { $elemMatch: { productName } },
     });
-
     return res.status(201).json({ success: "success", code: 201, product });
   }
-  if (await MyProducts.findOne({ date })) {
+
+  if (await MyProducts.findOne({ date, owner: _id })) {
     const productUpdate = await MyProducts.findOneAndUpdate(
       { date },
       {
