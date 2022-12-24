@@ -270,16 +270,11 @@
           "summary": "Searching for products from the database by query line",
           "parameters": [{
             "in": "query",
-            "name": "?title=",
-            "required": true,
+            "name": "title",
             "type": "string",
             "description": "Search product"
           }],
-          "security": [{ "Bearer": [] }],
-          "requestBody": {
-            "description": "Search product",
-            "required": true
-          },
+         
           "responses": {
             "200": {
               "description": "Successful operation",
