@@ -22,7 +22,7 @@ const productSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: "users",
+    ref: "user",
   },
 });
 
