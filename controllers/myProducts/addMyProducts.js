@@ -10,7 +10,6 @@ const addMyProducts = async (req, res) => {
     date,
     productInfo: { $elemMatch: { productName } },
   });
-
   if (product) {
     const newWeight = product.productInfo.map(
       (productInfo) => Number(productInfo.productWeight) + Number(productWeight)
