@@ -6,7 +6,7 @@ const deleteMyProducts = async (req, res) => {
   const { date } = req.body;
 
   const product = await MyProducts.findOneAndUpdate(
-    { data, productInfo: { $elemMatch: { _id: productId } } },
+    { date, productInfo: { $elemMatch: { _id: productId } } },
     {
       $pull: {
         productInfo: { _id: productId },

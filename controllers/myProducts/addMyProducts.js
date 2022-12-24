@@ -6,13 +6,10 @@ const addMyProducts = async (req, res) => {
   const { productName, productWeight, date } = req.body;
   const productCalories = await countCalories(productName, productWeight);
 
-
   const product = await MyProducts.findOne({
     date,
     productInfo: { $elemMatch: { productName } },
   });
-
-
   if (product) {
     const newWeight = product.productInfo.map(
       (productInfo) => Number(productInfo.productWeight) + Number(productWeight)
@@ -39,9 +36,9 @@ const addMyProducts = async (req, res) => {
       date,
       productInfo: { $elemMatch: { productName } },
     });
-
     return res.status(201).json({ success: "success", code: 201, product });
   }
+
   if (await MyProducts.findOne({ date, owner: _id })) {
     const productUpdate = await MyProducts.findOneAndUpdate(
       { date },
