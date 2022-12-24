@@ -1,0 +1,56 @@
+{
+  "name": "slimmom-backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node ./server.js",
+    "dev": "cross-env NODE_ENV=development nodemon ./server.js",
+    "lint": "eslint **/*.js",
+    "lint:fix": "eslint --fix **/*.js"
+  },
+  "engines": {
+    "node": ">=16.0.0 <17.0.0"
+  },
+  "dependencies": {
+    "@joi/date": "^2.1.0",
+    "@sendgrid/mail": "^7.7.0",
+    "axios": "^1.2.1",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jimp": "^0.16.2",
+    "joi": "^17.7.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.8.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nanoid": "^3.3.4",
+    "query-string": "^8.1.0",
+    "swagger-ui-express": "^4.6.0",
+    "uid": "^2.0.1"
+  },
+  "devDependencies": {
+    "eslint": "7.19.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "16.0.3",
+    "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "5.2.0",
+    "nodemon": "^2.0.20"
+  },
+  "description": "",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maksim-Yaroschuk/SlimMom-Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Maksim-Yaroschuk/SlimMom-Backend/issues"
+  },
+  "homepage": "https://github.com/Maksim-Yaroschuk/SlimMom-Backend#readme"
+}
