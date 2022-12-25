@@ -12,20 +12,16 @@ const addMyProducts = async (req, res) => {
     productInfo: { $elemMatch: { productName } },
   });
   if (product) {
-    const index = product.productInfo.findIndex(product => product.productName === productName)
-    
-    const newWeight = Number(product.productInfo[index].productWeight) + Number(productWeight)
+    const index = product.productInfo.findIndex(
+      (product) => product.productName === productName
+    );
 
-    const newCalories = Number(product.productInfo[index].productCalories) + Number(productCalories)
+    const newWeight =
+      Number(product.productInfo[index].productWeight) + Number(productWeight);
 
-    // const newWeight = product.productInfo.map(
-    //   (productInfo) => Number(productInfo.productWeight) + Number(productWeight)
-    // );
-
-    // const newCalories = product.productInfo.map(
-    //   (productInfo) =>
-    //     Number(productInfo.productCalories) + Number(productCalories)
-    // );
+    const newCalories =
+      Number(product.productInfo[index].productCalories) +
+      Number(productCalories);
 
     await MyProducts.findOneAndUpdate(
       { date, owner: _id },
@@ -39,27 +35,15 @@ const addMyProducts = async (req, res) => {
       { date, owner: _id },
       {
         $push: {
-          productInfo: { productCalories: newCalories.toString(), productName, productWeight: newWeight.toString() },
+          productInfo: {
+            productCalories: newCalories.toString(),
+            productName,
+            productWeight: newWeight.toString(),
+          },
         },
       }
     );
 
-    // await MyProducts.create({
-    //   date,
-    //   owner: _id,
-    //   productInfo: [
-    //     {
-    //       productCalories: newCalories.toString(),
-    //       productName,
-    //       productWeight: newWeight.toString(),
-    //     },
-    //   ],
-    // });
-
-    // await MyProducts.findOneAndDelete({
-    //   date,
-    //   productInfo: { $elemMatch: { productName } },
-    // });
     return res.status(201).json({ success: "success", code: 201, product });
   }
 
