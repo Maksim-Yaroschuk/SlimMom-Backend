@@ -12,16 +12,20 @@ const addMyProducts = async (req, res) => {
     productInfo: { $elemMatch: { productName } },
   });
   if (product) {
-    console.log(2);
-    console.log(product);
-    const newWeight = product.productInfo.map(
-      (productInfo) => Number(productInfo.productWeight) + Number(productWeight)
-    );
+    const index = product.productInfo.findIndex(product => product.productName === productName)
+    
+    const newWeight = Number(product.productInfo[index].productWeight) + Number(productWeight)
 
-    const newCalories = product.productInfo.map(
-      (productInfo) =>
-        Number(productInfo.productCalories) + Number(productCalories)
-    );
+    const newCalories = Number(product.productInfo[index].productCalories) + Number(productCalories)
+
+    // const newWeight = product.productInfo.map(
+    //   (productInfo) => Number(productInfo.productWeight) + Number(productWeight)
+    // );
+
+    // const newCalories = product.productInfo.map(
+    //   (productInfo) =>
+    //     Number(productInfo.productCalories) + Number(productCalories)
+    // );
 
     await MyProducts.findOneAndUpdate(
       { date, owner: _id },
@@ -69,12 +73,11 @@ const addMyProducts = async (req, res) => {
       }
     );
 
-    console.log(1);
     return res
       .status(201)
       .json({ success: "success", code: 201, productUpdate });
   }
-console.log(3);
+  
   const productAdd = await MyProducts.create({
     date,
     owner: _id,
