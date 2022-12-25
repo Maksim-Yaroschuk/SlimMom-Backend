@@ -31,7 +31,7 @@ const addMyProducts = async (req, res) => {
       { date, owner: _id },
       {
         $pull: {
-          productInfo: { productCalories, productName, productWeight },
+          productInfo: { productName },
         },
       }
     );
@@ -77,7 +77,7 @@ const addMyProducts = async (req, res) => {
       .status(201)
       .json({ success: "success", code: 201, productUpdate });
   }
-  
+
   const productAdd = await MyProducts.create({
     date,
     owner: _id,
