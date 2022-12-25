@@ -173,7 +173,7 @@
         }
       },
       "/api/users/logout": {
-        "get": {
+        "post": {
           "tags": ["Auth"],
           "summary": "User logout",
           "parameters": [],
@@ -274,7 +274,7 @@
             "type": "string",
             "description": "Search product"
           }],
-         
+          "security": [{ "Bearer": [] }],
           "responses": {
             "200": {
               "description": "Successful operation",
@@ -297,7 +297,7 @@
           }
         }
       },
-      "/api/myProducts": {
+      "/api/myProducts/addProduct": {
         "post": {
           "tags": ["MyProducts"],
           "summary": "Addendum tothe product",
@@ -309,65 +309,24 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PostMyProductsRequest"
+                  "$ref": "#/components/schemas/AddMyProductsRequest"
                 }
               }
             }
           },
           "responses": {
-            "200": {
+            "201": {
               "description": "Successful operation",
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/PostMyProductsResponse"
+                    "$ref": "#/components/schemas/AddMyProductsResponse"
                   }
                 }
               }
             },
             "400": {
               "description": "Bad request (invalid request body)",
-              "content": {}
-            },
-            "409": {
-              "description": "Wrong date (the date cannot be in the future)",
-              "content": {}
-            }
-          }
-        },
-        "get": {
-          "tags": ["MyProducts"],
-          "summary": "Reviewing the list of products of the day for the day",
-          "parameters": [],
-          "security": [{ "Bearer": [] }],
-          "requestBody": {
-            "description": "Date object",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetMyProductsRequest"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/GetMyProductsResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request (invalid request body)",
-              "content": {}
-            },
-            "409": {
-              "description": "Wrong date (the date cannot be in the future)",
               "content": {}
             }
           }
@@ -417,6 +376,41 @@
             },
             "409": {
               "description": "Wrong date (the date cannot be in the future)",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/api/myProducts": {
+        "post": {
+          "tags": ["MyProducts"],
+          "summary": "Getting all the information up to a specific day",
+          "parameters": [],
+          "security": [{ "Bearer": [] }],
+          "requestBody": {
+            "description": "Date",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyProductsRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/MyProductsResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request (invalid request body)",
               "content": {}
             }
           }
@@ -908,7 +902,7 @@
             }
           },
 
-        "PostMyProductsRequest": {
+        "AddMyProductsRequest": {
           "type": "object",
           "required": ["productName", "productWeight", "date"],
           "properties": {
@@ -929,38 +923,61 @@
             }
           }
         },
-        "PostMyProductsResponse": {   
+        "AddMyProductsResponse": {   
             "type": "object",
             "properties": {
-              "productName": {
-                "type": "string",
-                "description": "Product Name",
-                "example": "Булгур приготований"
-              },
-              "date": {
-                "type": "number",
-                "description": "Date",
-                "example": "10.12.2022"
-              },
-              "owner": {
-                "type": "string",
-                "description": "Owner",
-                "example": "63a473a9885e213257ca58dd"
-              },
-              "productWeight": {
-                "type": "integer",
-                "description": "Product Weight",
-                "example": "100"
-              },
-              "productCalories": {
-                "type": "integer",
-                "description": "Product Calories",
-                "example": "83"
+              "productAdd": {
+                "type": "object",
+                "properties": {
+                  "productInfo": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productWeight": {
+                          "type": "integer",
+                          "description": "Product Weight",
+                          "example": "100"
+                        },
+                        "productCalories": {
+                          "type": "integer",
+                          "description": "Product Calories",
+                          "example": "83"
+                        },
+                        "productName": {
+                          "type": "string",
+                          "description": "Product Name",
+                          "example": "Булгур приготований"
+                        },
+                        "id": {
+                          "type": "string",
+                          "description": "Id product",
+                          "example": "5d51694802b2373622ff5549"
+                        }
+                      }
+                    }
+                  },
+                  "date": {
+                    "type": "number",
+                    "description": "Date",
+                    "example": "10.12.2022"
+                  },
+                  "owner": {
+                    "type": "string",
+                    "description": "Owner",
+                    "example": "63a473a9885e213257ca58dd"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Id product list",
+                    "example": "5d51694802b2373622ff5547"
+                  }
+                }
               }
             }
         },
 
-        "GetMyProductsRequest": {
+        "MyProductsRequest": {
           "type": "object",
           "required": ["date"],
           "properties": {
@@ -971,13 +988,43 @@
             }
           }
         },
-        "GetMyProductsResponse": {   
+        "MyProductsResponse": {   
+            "type": "array",
+            "items": {
             "type": "object",
             "properties": {
-              "productName": {
+              "id": {
                 "type": "string",
-                "description": "Product Name",
-                "example": "Булгур приготований"
+                "description": "Id product list",
+                "example": "5d51694802b2373622ff5547"
+              },
+              "productInfo": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "productWeight": {
+                      "type": "integer",
+                      "description": "Product Weight",
+                      "example": "100"
+                    },
+                    "productCalories": {
+                      "type": "integer",
+                      "description": "Product Calories",
+                      "example": "83"
+                    },
+                    "productName": {
+                      "type": "string",
+                      "description": "Product Name",
+                      "example": "Булгур приготований"
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "Id product",
+                      "example": "5d51694802b2373622ff5549"
+                    }
+                  }
+                }
               },
               "date": {
                 "type": "number",
@@ -988,18 +1035,9 @@
                 "type": "string",
                 "description": "Owner",
                 "example": "63a473a9885e213257ca58dd"
-              },
-              "productWeight": {
-                "type": "integer",
-                "description": "Product Weight",
-                "example": "100"
-              },
-              "productCalories": {
-                "type": "integer",
-                "description": "Product Calories",
-                "example": "83"
               }
             }
+          }
         },
 
         "DeleteRequest": {
