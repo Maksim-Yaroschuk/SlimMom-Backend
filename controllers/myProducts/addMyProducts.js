@@ -8,40 +8,50 @@ const addMyProducts = async (req, res) => {
 
   const product = await MyProducts.findOne({
     date,
+    owner: _id,
     productInfo: { $elemMatch: { productName } },
   });
   if (product) {
-    const newWeight = product.productInfo.map(
-      (productInfo) => Number(productInfo.productWeight) + Number(productWeight)
+    console.log(1);
+    const index = product.productInfo.findIndex(
+      (product) => product.productName === productName
     );
 
-    const newCalories = product.productInfo.map(
-      (productInfo) =>
-        Number(productInfo.productCalories) + Number(productCalories)
-    );
+    const newWeight =
+      Number(product.productInfo[index].productWeight) + Number(productWeight);
 
-    await MyProducts.create({
-      date,
-      owner: _id,
-      productInfo: [
-        {
-          productCalories: newCalories.toString(),
-          productName,
-          productWeight: newWeight.toString(),
+    const newCalories =
+      Number(product.productInfo[index].productCalories) +
+      Number(productCalories);
+
+    await MyProducts.findOneAndUpdate(
+      { date, owner: _id },
+      {
+        $pull: {
+          productInfo: { productName },
         },
-      ],
-    });
+      }
+    );
+    await MyProducts.findOneAndUpdate(
+      { date, owner: _id },
+      {
+        $push: {
+          productInfo: {
+            productCalories: newCalories.toString(),
+            productName,
+            productWeight: newWeight.toString(),
+          },
+        },
+      }
+    );
 
-    await MyProducts.findOneAndDelete({
-      date,
-      productInfo: { $elemMatch: { productName } },
-    });
     return res.status(201).json({ success: "success", code: 201, product });
   }
 
   if (await MyProducts.findOne({ date, owner: _id })) {
+    console.log(2);
     const productUpdate = await MyProducts.findOneAndUpdate(
-      { date },
+      { date, owner: _id },
       {
         $push: {
           productInfo: {
@@ -60,6 +70,7 @@ const addMyProducts = async (req, res) => {
       .status(201)
       .json({ success: "success", code: 201, productUpdate });
   }
+  console.log(3);
 
   const productAdd = await MyProducts.create({
     date,
