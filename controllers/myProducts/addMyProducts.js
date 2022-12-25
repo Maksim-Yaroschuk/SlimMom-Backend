@@ -44,7 +44,14 @@ const addMyProducts = async (req, res) => {
       { date },
       {
         $push: {
-          productInfo: { productCalories, productName, productWeight },
+          productInfo: {
+            $each: [{
+              productCalories,
+              productName,
+              productWeight,
+            }],
+            $position: 0,
+          },
         },
       }
     );
