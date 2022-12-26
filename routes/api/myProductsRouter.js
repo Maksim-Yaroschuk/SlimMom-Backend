@@ -24,7 +24,7 @@ router.delete(
   ctrlWrapper(ctrl.deleteMyProducts)
 );
 router.post(
-  "/",
+  "/listMyProduct",
   validation(joiGetMyProductSchema),
   ctrlWrapper(ctrl.getMyProducts)
 );

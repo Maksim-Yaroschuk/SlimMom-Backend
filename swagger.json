@@ -1,1093 +1,1089 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-      "version": "2.0.1",
-      "title": "Calculator calorie",
-      "description": "Application for calculating calories consumed per day",
-      "license": {
-        "name": "MIT",
-        "url": "https://opensource.org/licenses/MIT"
+  "openapi": "3.0.1",
+  "info": {
+    "version": "2.0.1",
+    "title": "Calculator calorie",
+    "description": "Application for calculating calories consumed per day",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [
+    { "url": "http://localhost:3001" },
+    { "url": "https://slimmom-oz0k.onrender.com" }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Products",
+      "description": "Product base endpoints"
+    },
+    {
+      "name": "MyProducts",
+      "description": "Base of consumed products per day endpoints"
+    }
+  ],
+  "paths": {
+    "/api/users/signup": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
       }
     },
-    "consumes": ["application/json"],
-    "produces": ["application/json"],
-    "servers": [{ "url": "http://localhost:3001" }, { "url": "https://slimmom-oz0k.onrender.com" }],
-    "tags": [
-      {
-        "name": "Auth",
-        "description": "Authorization endpoints"
-      },
-      {
-        "name": "Products",
-        "description": "Product base endpoints"
-      },
-      {
-        "name": "MyProducts",
-        "description": "Base of consumed products per day endpoints"
+    "/api/users/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "parameters": [],
+        "requestBody": {
+          "description": "Login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Email or password is wrong",
+            "content": {}
+          }
+        }
       }
-    ],
-    "paths": {
-      "/api/users/signup": {
-        "post": {
-          "tags": ["Auth"],
-          "summary": "User registration",
-          "parameters": [],
-          "requestBody": {
-            "description": "Registration's object",
-            "required": true,
+    },
+    "/api/users/current": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "User current",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationRequest"
+                  "$ref": "#/components/schemas/CurrentResponse"
                 }
               }
             }
           },
-          "responses": {
-            "201": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/RegistrationResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request (invalid request body)",
-              "content": {}
-            },
-            "409": {
-              "description": "Provided email already exists",
-              "content": {}
-            }
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
           }
         }
-      },
-      "/api/users/login": {
-        "post": {
-          "tags": ["Auth"],
-          "summary": "User login",
-          "parameters": [],
-          "requestBody": {
-            "description": "Login object",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginRequest"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/LoginResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request (invalid request body)",
-              "content": {}
-            },
-            "401": {
-              "description": "Email or password is wrong",
-              "content": {}
-            }
-          }
-        }
-      },
-      "/api/users/current": {
-        "get": {
-          "tags": ["Auth"],
-          "summary": "User current",
-          "parameters": [],
-          "security": [{ "Bearer": [] }],
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/CurrentResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request (invalid request body)",
-              "content": {}
-            }
-          }
-        }
-      },
-      "/api/users/{id}/infouser": {
-        "patch": {
-          "tags": ["Auth"],
-          "summary": "Updated information on daily calorie intake and a list of non-recommended foods.",
-          "parameters": [{
+      }
+    },
+    "/api/users/{id}/infouser": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "Updated information on daily calorie intake and a list of non-recommended foods.",
+        "parameters": [
+          {
             "in": "path",
             "name": "id",
             "required": true,
             "type": "string",
             "description": "User's id"
-          }],
-          "security": [{ "Bearer": [] }],
-          "requestBody": {
-            "description": "Infouser object",
-            "required": true,
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Infouser object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InfouserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/InfouserRequest"
+                  "$ref": "#/components/schemas/InfouserResponse"
                 }
               }
             }
           },
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/InfouserResponse"
-                  }
-                }
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/users/logout": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/products": {
+      "post": {
+        "tags": ["Products"],
+        "summary": "Daily caloric intake and a list of non-recommended foods",
+        "parameters": [],
+        "requestBody": {
+          "description": "User settings object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductsRequest"
               }
-            },
-            "400": {
-              "description": "Bad request (invalid request body)",
-              "content": {}
-            },
-            "404": {
-              "description": "Not found",
-              "content": {}
             }
           }
-        }
-      },
-      "/api/users/logout": {
-        "post": {
-          "tags": ["Auth"],
-          "summary": "User logout",
-          "parameters": [],
-          "security": [{ "Bearer": [] }],
-          "responses": {
-            "204": {
-              "description": "Successful operation"
-            },
-            "400": {
-              "description": "Bad request (invalid request body)",
-              "content": {}
-            }
-          }
-        }
-      },
-      "/api/products": {
-        "post": {
-          "tags": ["Products"],
-          "summary": "Daily caloric intake and a list of non-recommended foods",
-          "parameters": [],
-          "requestBody": {
-            "description": "User settings object",
-            "required": true,
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductsRequest"
+                  "$ref": "#/components/schemas/ProductsResponse"
                 }
               }
             }
           },
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ProductsResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request (invalid request body)",
-              "content": {}
-            }
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
           }
         }
-      },
-      "/api/products/{userId}": {
-        "post": {
-          "tags": ["Products"],
-          "summary": "Daily caloric intake and a list of non-recommended foods registered user",
-          "parameters": [{
+      }
+    },
+    "/api/products/{userId}": {
+      "post": {
+        "tags": ["Products"],
+        "summary": "Daily caloric intake and a list of non-recommended foods registered user",
+        "parameters": [
+          {
             "in": "path",
             "name": "userId",
             "required": true,
             "type": "string",
             "description": "User's userId"
-          }],
-          "security": [{ "Bearer": [] }],
-          "requestBody": {
-            "description": "Registered user settings object",
-            "required": true,
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Registered user settings object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductsIdRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductsIdRequest"
+                  "$ref": "#/components/schemas/ProductsIdResponse"
                 }
               }
             }
           },
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ProductsIdResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request (invalid request body)",
-              "content": {}
-            }
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
           }
         }
-      },
-      "/api/products/searchProducts": {
-        "get": {
-          "tags": ["Products"],
-          "summary": "Searching for products from the database by query line",
-          "parameters": [{
+      }
+    },
+    "/api/products/searchProducts": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Searching for products from the database by query line",
+        "parameters": [
+          {
             "in": "query",
             "name": "title",
             "type": "string",
             "description": "Search product"
-          }],
-          "security": [{ "Bearer": [] }],
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/SearchProductsResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request (invalid request body)",
-              "content": {}
-            },
-            "404": {
-              "description": "Not Found",
-              "content": {}
-            }
           }
-        }
-      },
-      "/api/myProducts/addProduct": {
-        "post": {
-          "tags": ["MyProducts"],
-          "summary": "Addendum tothe product",
-          "parameters": [],
-          "security": [{ "Bearer": [] }],
-          "requestBody": {
-            "description": "My products object",
-            "required": true,
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AddMyProductsRequest"
+                  "$ref": "#/components/schemas/SearchProductsResponse"
                 }
               }
             }
           },
-          "responses": {
-            "201": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/AddMyProductsResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request (invalid request body)",
-              "content": {}
-            }
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
           }
         }
-      },
-      "/api/myProducts/{productId}": {
-        "delete": {
-          "tags": ["MyProducts"],
-          "summary": "Remote product by id",
-          "parameters": [{
+      }
+    },
+    "/api/myProducts/addProduct": {
+      "post": {
+        "tags": ["MyProducts"],
+        "summary": "Addendum tothe product",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "My products object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMyProductsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddMyProductsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Wrong date (the date cannot be in the future)",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/myProducts/listMyProduct": {
+      "post": {
+        "tags": ["MyProducts"],
+        "summary": "Reviewing the list of products of the day for the day",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Date object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListMyProductsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListMyProductsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Wrong date (the date cannot be in the future)",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/myProducts/{productId}": {
+      "delete": {
+        "tags": ["MyProducts"],
+        "summary": "Remote product by id",
+        "parameters": [
+          {
             "in": "path",
             "name": "productId",
             "required": true,
             "type": "string",
             "description": "Product id"
-          }],
-          "security": [{ "Bearer": [] }],
-          "requestBody": {
-            "description": "Date object",
-            "required": true,
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Date object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteRequest"
+                  "$ref": "#/components/schemas/DeleteResponse"
                 }
               }
             }
           },
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/DeleteResponse"
-                  }
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "404": {
+            "description": "Product with id not found",
+            "content": {}
+          },
+          "409": {
+            "description": "Wrong date (the date cannot be in the future)",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Ukraine"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Ukraine"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        }
+      },
+
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Token",
+            "example": "hjhjggg56567565vhghffgfgfhj"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Ukraine"
+          },
+          "infouser": {
+            "type": "object",
+            "properties": {
+              "currentWeight": {
+                "type": "integer",
+                "description": "Current Weight",
+                "example": "86"
+              },
+              "height": {
+                "type": "integer",
+                "description": "Height",
+                "example": "170"
+              },
+              "age": {
+                "type": "integer",
+                "description": "User's age",
+                "example": "27"
+              },
+              "desiredWeight": {
+                "type": "integer",
+                "description": "Desired weight",
+                "example": "60"
+              },
+              "bloodType": {
+                "type": "integer",
+                "description": "User's bloodType",
+                "example": "2"
+              },
+              "dailyRate": {
+                "type": "integer",
+                "description": "Daily rate",
+                "example": "1500"
+              },
+              "notAllowedProducts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "NotAllowed products",
+                  "example": "Пластівці Makfa 5 злаків"
+                }
+              },
+              "notAllowedProductsAll": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "NotAllowed productsAll",
+                  "example": "Пластівці Makfa 5 злаків"
                 }
               }
-            },
-            "400": {
-              "description": "Bad request (invalid request body)",
-              "content": {}
-            },
-            "404": {
-              "description": "Product with id not found",
-              "content": {}
-            },
-            "409": {
-              "description": "Wrong date (the date cannot be in the future)",
-              "content": {}
             }
           }
         }
       },
-      "/api/myProducts": {
-        "post": {
-          "tags": ["MyProducts"],
-          "summary": "Getting all the information up to a specific day",
-          "parameters": [],
-          "security": [{ "Bearer": [] }],
-          "requestBody": {
-            "description": "Date",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MyProductsRequest"
+
+      "CurrentResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Ukraine"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "infouser": {
+            "type": "object",
+            "properties": {
+              "currentWeight": {
+                "type": "integer",
+                "description": "Current Weight",
+                "example": "86"
+              },
+              "height": {
+                "type": "integer",
+                "description": "Height",
+                "example": "170"
+              },
+              "age": {
+                "type": "integer",
+                "description": "User's age",
+                "example": "27"
+              },
+              "desiredWeight": {
+                "type": "integer",
+                "description": "Desired weight",
+                "example": "60"
+              },
+              "bloodType": {
+                "type": "integer",
+                "description": "User's bloodType",
+                "example": "2"
+              },
+              "dailyRate": {
+                "type": "integer",
+                "description": "Daily rate",
+                "example": "1500"
+              },
+              "notAllowedProducts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "NotAllowed products",
+                  "example": "Пластівці Makfa 5 злаків"
+                }
+              },
+              "notAllowedProductsAll": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "NotAllowed productsAll",
+                  "example": "Пластівці Makfa 5 злаків"
                 }
               }
             }
+          }
+        }
+      },
+
+      "InfouserRequest": {
+        "type": "object",
+        "required": [
+          "currentWeight",
+          "height",
+          "age",
+          "desiredWeight",
+          "bloodType",
+          "dailyRate",
+          "notAllowedProducts",
+          "notAllowedProductsAll"
+        ],
+        "properties": {
+          "currentWeight": {
+            "type": "integer",
+            "description": "Current weight",
+            "example": "86"
           },
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/MyProductsResponse"
-                  }
+          "height": {
+            "type": "integer",
+            "description": "Height",
+            "example": "170"
+          },
+          "age": {
+            "type": "integer",
+            "description": "User's age",
+            "example": "27"
+          },
+          "desiredWeight": {
+            "type": "integer",
+            "description": "Desired weight",
+            "example": "60"
+          },
+          "bloodType": {
+            "type": "integer",
+            "description": "User's bloodType",
+            "example": "2"
+          },
+          "dailyRate": {
+            "type": "integer",
+            "description": "Daily rate",
+            "example": "1500"
+          },
+          "notAllowedProducts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "NotAllowed products",
+              "example": "Пластівці Makfa 5 злаків"
+            }
+          },
+          "notAllowedProductsAll": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "NotAllowed productsAll",
+              "example": "Пластівці Makfa 5 злаків"
+            }
+          }
+        }
+      },
+      "InfouserResponse": {
+        "type": "object",
+        "properties": {
+          "infouser": {
+            "type": "object",
+            "properties": {
+              "currentWeight": {
+                "type": "integer",
+                "description": "Current weight",
+                "example": "86"
+              },
+              "height": {
+                "type": "integer",
+                "description": "Height",
+                "example": "170"
+              },
+              "age": {
+                "type": "integer",
+                "description": "User's age",
+                "example": "27"
+              },
+              "desiredWeight": {
+                "type": "integer",
+                "description": "Desired weight",
+                "example": "60"
+              },
+              "bloodType": {
+                "type": "integer",
+                "description": "User's bloodType",
+                "example": "2"
+              },
+              "dailyRate": {
+                "type": "integer",
+                "description": "Daily rate",
+                "example": "1500"
+              },
+              "notAllowedProducts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "NotAllowed products",
+                  "example": "Пластівці Makfa 5 злаків"
+                }
+              },
+              "notAllowedProductsAll": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "NotAllowed productsAll",
+                  "example": "Пластівці Makfa 5 злаків"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "ProductsRequest": {
+        "type": "object",
+        "required": [
+          "currentWeight",
+          "height",
+          "age",
+          "desiredWeight",
+          "bloodType"
+        ],
+        "properties": {
+          "currentWeight": {
+            "type": "integer",
+            "description": "Current weight",
+            "example": "86"
+          },
+          "height": {
+            "type": "integer",
+            "description": "Height",
+            "example": "170"
+          },
+          "age": {
+            "type": "integer",
+            "description": "User's age",
+            "example": "27"
+          },
+          "desiredWeight": {
+            "type": "integer",
+            "description": "Desired weight",
+            "example": "60"
+          },
+          "bloodType": {
+            "type": "integer",
+            "description": "User's bloodType",
+            "example": "2"
+          }
+        }
+      },
+      "ProductsResponse": {
+        "type": "object",
+        "properties": {
+          "dailyRate": {
+            "type": "integer",
+            "description": "1500"
+          },
+          "notAllowedProducts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "NotAllowed products",
+              "example": "Пластівці Makfa 5 злаків"
+            }
+          },
+          "notAllowedProductsAll": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "NotAllowed productsAll",
+              "example": "Пластівці Makfa 5 злаків"
+            }
+          }
+        }
+      },
+
+      "ProductsIdRequest": {
+        "type": "object",
+        "required": [
+          "currentWeight",
+          "height",
+          "age",
+          "desiredWeight",
+          "bloodType"
+        ],
+        "properties": {
+          "currentWeight": {
+            "type": "integer",
+            "description": "Current weight",
+            "example": "86"
+          },
+          "height": {
+            "type": "integer",
+            "description": "Height",
+            "example": "170"
+          },
+          "age": {
+            "type": "integer",
+            "description": "User's age",
+            "example": "27"
+          },
+          "desiredWeight": {
+            "type": "integer",
+            "description": "Desired weight",
+            "example": "60"
+          },
+          "bloodType": {
+            "type": "integer",
+            "description": "User's bloodType",
+            "example": "2"
+          }
+        }
+      },
+      "ProductsIdResponse": {
+        "type": "object",
+        "properties": {
+          "dailyRate": {
+            "type": "integer",
+            "description": "1500"
+          },
+          "notAllowedProducts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "NotAllowed products",
+              "example": "Пластівці Makfa 5 злаків"
+            }
+          },
+          "notAllowedProductsAll": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "NotAllowed productsAll",
+              "example": "Пластівці Makfa 5 злаків"
+            }
+          }
+        }
+      },
+
+      "SearchProductsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "object",
+              "properties": {
+                "ru": {
+                  "type": "string",
+                  "description": "RU language",
+                  "example": "Булгур"
+                },
+                "ua": {
+                  "type": "string",
+                  "description": "ua language",
+                  "example": "Булгур"
                 }
               }
             },
-            "400": {
-              "description": "Bad request (invalid request body)",
-              "content": {}
+            "groupBloodNotAllowed": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "boolean",
+                  "description": "Group blood",
+                  "example": "true"
+                },
+                "2": {
+                  "type": "boolean",
+                  "description": "Group blood",
+                  "example": "false"
+                },
+                "3": {
+                  "type": "boolean",
+                  "description": "Group blood",
+                  "example": "false"
+                },
+                "4": {
+                  "type": "boolean",
+                  "description": "Group blood",
+                  "example": "false"
+                }
+              }
+            },
+            "id": {
+              "type": "string",
+              "description": "Id product",
+              "example": "5d51694802b2373622ff5547"
+            },
+            "categories": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Categories products",
+                "example": "зерновые"
+              }
+            },
+            "weight": {
+              "type": "integer",
+              "description": "Weight",
+              "example": "100"
+            },
+            "calories": {
+              "type": "integer",
+              "description": "Calories",
+              "example": "342"
             }
+          }
+        }
+      },
+
+      "AddMyProductsRequest": {
+        "type": "object",
+        "required": ["productName", "productWeight", "date"],
+        "properties": {
+          "productName": {
+            "type": "string",
+            "description": "Product name",
+            "example": "Булгур приготований"
+          },
+          "productWeight": {
+            "type": "integer",
+            "description": "Product weight",
+            "example": "100"
+          },
+          "date": {
+            "type": "number",
+            "description": "Date",
+            "example": "10.12.2022"
+          }
+        }
+      },
+      "AddMyProductsResponse": {
+        "type": "object",
+        "properties": {
+          "productName": {
+            "type": "string",
+            "description": "Product Name",
+            "example": "Булгур приготований"
+          },
+          "date": {
+            "type": "number",
+            "description": "Date",
+            "example": "10.12.2022"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "example": "63a473a9885e213257ca58dd"
+          },
+          "productWeight": {
+            "type": "integer",
+            "description": "Product Weight",
+            "example": "100"
+          },
+          "productCalories": {
+            "type": "integer",
+            "description": "Product Calories",
+            "example": "83"
+          }
+        }
+      },
+
+      "ListMyProductsRequest": {
+        "type": "object",
+        "required": ["date"],
+        "properties": {
+          "date": {
+            "type": "number",
+            "description": "Date",
+            "example": "10.12.2022"
+          }
+        }
+      },
+      "ListMyProductsResponse": {
+        "type": "object",
+        "properties": {
+          "productName": {
+            "type": "string",
+            "description": "Product Name",
+            "example": "Булгур приготований"
+          },
+          "date": {
+            "type": "number",
+            "description": "Date",
+            "example": "10.12.2022"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "example": "63a473a9885e213257ca58dd"
+          },
+          "productWeight": {
+            "type": "integer",
+            "description": "Product Weight",
+            "example": "100"
+          },
+          "productCalories": {
+            "type": "integer",
+            "description": "Product Calories",
+            "example": "83"
+          }
+        }
+      },
+
+      "DeleteRequest": {
+        "type": "object",
+        "required": ["date"],
+        "properties": {
+          "date": {
+            "type": "number",
+            "description": "Date",
+            "example": "10.12.2022"
+          }
+        }
+      },
+      "DeleteResponse": {
+        "type": "object",
+        "properties": {
+          "productName": {
+            "type": "string",
+            "description": "Product Name",
+            "example": "Булгур приготований"
+          },
+          "date": {
+            "type": "number",
+            "description": "Date",
+            "example": "10.12.2022"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "example": "63a473a9885e213257ca58dd"
+          },
+          "productWeight": {
+            "type": "integer",
+            "description": "Product Weight",
+            "example": "100"
+          },
+          "productCalories": {
+            "type": "integer",
+            "description": "Product Calories",
+            "example": "83"
           }
         }
       }
     },
-    
-    "components": {
-      "schemas": {
-        "RegistrationRequest": {
-          "type": "object",
-          "required": ["name", "email", "password"],
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "User's name",
-              "example": "Ukraine"
-            },
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "password": {
-              "type": "string",
-              "description": "User's password",
-              "example": "qwerty123"
-            }
-          }
-        },
-        "RegistrationResponse": {   
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "description": "User's name",
-                "example": "Ukraine"
-              },
-              "email": {
-                "type": "string",
-                "description": "User's email",
-                "format": "email"
-              }
-            }
-        },
-
-        "LoginRequest": {
-          "type": "object",
-          "required": ["email", "password"],
-          "properties": {
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "password": {
-              "type": "string",
-              "description": "User's password",
-              "example": "qwerty123"
-            }
-          }
-        },
-        "LoginResponse": {   
-            "type": "object",
-            "properties": {
-              "token": {
-                "type": "string",
-                "description": "Token",
-                "example": "hjhjggg56567565vhghffgfgfhj"
-              },
-              "name": {
-                "type": "string",
-                "description": "User's name",
-                "example": "Ukraine"
-              },
-              "infouser": {
-                "type": "object",
-                "properties": {
-                  "currentWeight": {
-                    "type": "integer",
-                    "description": "Current Weight",
-                    "example": "86"
-                  },
-                  "height": {
-                    "type": "integer",
-                    "description": "Height",
-                    "example": "170"
-                  },
-                  "age": {
-                    "type": "integer",
-                    "description": "User's age",
-                    "example": "27"
-                  },
-                  "desiredWeight": {
-                    "type": "integer",
-                    "description": "Desired weight",
-                    "example": "60"
-                  },
-                  "bloodType": {
-                    "type": "integer",
-                    "description": "User's bloodType",
-                    "example": "2"
-                  }, 
-                  "dailyRate": {
-                    "type": "integer",
-                    "description": "Daily rate",
-                    "example": "1500"
-                  },
-                  "notAllowedProducts": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "description": "NotAllowed products",
-                      "example": "Пластівці Makfa 5 злаків"
-                    }
-                  }, 
-                  "notAllowedProductsAll": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "description": "NotAllowed productsAll",
-                      "example": "Пластівці Makfa 5 злаків"
-                    }
-                  }
-                }
-              }
-            }
-        },
-
-        "CurrentResponse": {   
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "User's name",
-              "example": "Ukraine"
-            },
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "infouser": {
-              "type": "object",
-              "properties": {
-                "currentWeight": {
-                  "type": "integer",
-                  "description": "Current Weight",
-                  "example": "86"
-                },
-                "height": {
-                  "type": "integer",
-                  "description": "Height",
-                  "example": "170"
-                },
-                "age": {
-                  "type": "integer",
-                  "description": "User's age",
-                  "example": "27"
-                },
-                "desiredWeight": {
-                  "type": "integer",
-                  "description": "Desired weight",
-                  "example": "60"
-                },
-                "bloodType": {
-                  "type": "integer",
-                  "description": "User's bloodType",
-                  "example": "2"
-                }, 
-                "dailyRate": {
-                  "type": "integer",
-                  "description": "Daily rate",
-                  "example": "1500"
-                },
-                "notAllowedProducts": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "description": "NotAllowed products",
-                    "example": "Пластівці Makfa 5 злаків"
-                  }
-                }, 
-                "notAllowedProductsAll": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "description": "NotAllowed productsAll",
-                    "example": "Пластівці Makfa 5 злаків"
-                  }
-                }
-              }
-            }
-          }
-        },
-
-        "InfouserRequest": {
-          "type": "object",
-          "required": ["currentWeight", "height", "age", "desiredWeight", "bloodType", "dailyRate", "notAllowedProducts", "notAllowedProductsAll"],
-          "properties": {
-            "currentWeight": {
-              "type": "integer",
-              "description": "Current weight",
-              "example": "86"
-            },
-            "height": {
-              "type": "integer",
-              "description": "Height",
-              "example": "170"
-            },
-            "age": {
-              "type": "integer",
-              "description": "User's age",
-              "example": "27"
-            },
-            "desiredWeight": {
-              "type": "integer",
-              "description": "Desired weight",
-              "example": "60"
-            },
-            "bloodType": {
-              "type": "integer",
-              "description": "User's bloodType",
-              "example": "2"
-            }, 
-            "dailyRate": {
-              "type": "integer",
-              "description": "Daily rate",
-              "example": "1500"
-            },
-            "notAllowedProducts": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "description": "NotAllowed products",
-                "example": "Пластівці Makfa 5 злаків"
-              }
-            }, 
-            "notAllowedProductsAll": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "description": "NotAllowed productsAll",
-                "example": "Пластівці Makfa 5 злаків"
-              }
-            }
-          }
-        },
-        "InfouserResponse": {   
-          "type": "object",
-          "properties": {
-            "infouser": {
-              "type": "object",
-              "properties": {
-                "currentWeight": {
-                  "type": "integer",
-                  "description": "Current weight",
-                  "example": "86"
-                },
-                "height": {
-                  "type": "integer",
-                  "description": "Height",
-                  "example": "170"
-                },
-                "age": {
-                  "type": "integer",
-                  "description": "User's age",
-                  "example": "27"
-                },
-                "desiredWeight": {
-                  "type": "integer",
-                  "description": "Desired weight",
-                  "example": "60"
-                },
-                "bloodType": {
-                  "type": "integer",
-                  "description": "User's bloodType",
-                  "example": "2"
-                }, 
-                "dailyRate": {
-                  "type": "integer",
-                  "description": "Daily rate",
-                  "example": "1500"
-                },
-                "notAllowedProducts": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "description": "NotAllowed products",
-                    "example": "Пластівці Makfa 5 злаків"
-                  }
-                }, 
-                "notAllowedProductsAll": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "description": "NotAllowed productsAll",
-                    "example": "Пластівці Makfa 5 злаків"
-                  }
-                }
-              }
-            }
-          } 
-        },
-
-        "ProductsRequest": {
-          "type": "object",
-          "required": ["currentWeight", "height", "age", "desiredWeight", "bloodType"],
-          "properties": {
-            "currentWeight": {
-              "type": "integer",
-              "description": "Current weight",
-              "example": "86"
-            },
-            "height": {
-              "type": "integer",
-              "description": "Height",
-              "example": "170"
-            },
-            "age": {
-              "type": "integer",
-              "description": "User's age",
-              "example": "27"
-            },
-            "desiredWeight": {
-              "type": "integer",
-              "description": "Desired weight",
-              "example": "60"
-            },
-            "bloodType": {
-              "type": "integer",
-              "description": "User's bloodType",
-              "example": "2"
-            }
-          }
-        },
-        "ProductsResponse": {   
-            "type": "object",
-            "properties": {
-              "dailyRate": {
-                "type": "integer",
-                "description": "1500"
-              },
-              "notAllowedProducts": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "description": "NotAllowed products",
-                  "example": "Пластівці Makfa 5 злаків"
-                }
-              }, 
-              "notAllowedProductsAll": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "description": "NotAllowed productsAll",
-                  "example": "Пластівці Makfa 5 злаків"
-                }
-              }
-            }
-        },
-
-        "ProductsIdRequest": {
-          "type": "object",
-          "required": ["currentWeight", "height", "age", "desiredWeight", "bloodType"],
-          "properties": {
-            "currentWeight": {
-              "type": "integer",
-              "description": "Current weight",
-              "example": "86"
-            },
-            "height": {
-              "type": "integer",
-              "description": "Height",
-              "example": "170"
-            },
-            "age": {
-              "type": "integer",
-              "description": "User's age",
-              "example": "27"
-            },
-            "desiredWeight": {
-              "type": "integer",
-              "description": "Desired weight",
-              "example": "60"
-            },
-            "bloodType": {
-              "type": "integer",
-              "description": "User's bloodType",
-              "example": "2"
-            }
-          }
-        },
-        "ProductsIdResponse": {   
-            "type": "object",
-            "properties": {
-              "dailyRate": {
-                "type": "integer",
-                "description": "1500"
-              },
-              "notAllowedProducts": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "description": "NotAllowed products",
-                  "example": "Пластівці Makfa 5 злаків"
-                }
-              }, 
-              "notAllowedProductsAll": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "description": "NotAllowed productsAll",
-                  "example": "Пластівці Makfa 5 злаків"
-                }
-              }
-            }
-        },
-
-        "SearchProductsResponse": {   
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-              "title": {
-                "type": "object",
-                "properties": {
-                  "ru": { 
-                    "type": "string",
-                    "description": "RU language",
-                    "example": "Булгур"
-                   },
-                  "ua": { 
-                    "type": "string", 
-                    "description": "ua language",
-                    "example": "Булгур"
-                  }
-                }
-                },
-              "groupBloodNotAllowed": {
-                "type": "object",
-                "properties": {
-                  "1": { 
-                    "type": "boolean",
-                    "description": "Group blood",
-                    "example": "true"
-                   },
-                   "2": { 
-                    "type": "boolean",
-                    "description": "Group blood",
-                    "example": "false"
-                   },
-                   "3": { 
-                    "type": "boolean",
-                    "description": "Group blood",
-                    "example": "false"
-                   },
-                   "4": { 
-                    "type": "boolean",
-                    "description": "Group blood",
-                    "example": "false"
-                   }
-                }
-               },
-               "id": {
-                "type": "string",
-                "description": "Id product",
-                "example": "5d51694802b2373622ff5547"
-               },
-               "categories": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "description": "Categories products",
-                  "example": "зерновые"
-                }
-              },
-              "weight": {
-                "type": "integer",
-                "description": "Weight",
-                "example": "100"
-              },
-              "calories": {
-                "type": "integer",
-                "description": "Calories",
-                "example": "342"
-              }
-             }
-            }
-          },
-
-        "AddMyProductsRequest": {
-          "type": "object",
-          "required": ["productName", "productWeight", "date"],
-          "properties": {
-            "productName": {
-              "type": "string",
-              "description": "Product name",
-              "example": "Булгур приготований"
-            },
-            "productWeight": {
-              "type": "integer",
-              "description": "Product weight",
-              "example": "100"
-            },
-            "date": {
-              "type": "number",
-              "description": "Date",
-              "example": "10.12.2022"
-            }
-          }
-        },
-        "AddMyProductsResponse": {   
-            "type": "object",
-            "properties": {
-              "productAdd": {
-                "type": "object",
-                "properties": {
-                  "productInfo": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "productWeight": {
-                          "type": "integer",
-                          "description": "Product Weight",
-                          "example": "100"
-                        },
-                        "productCalories": {
-                          "type": "integer",
-                          "description": "Product Calories",
-                          "example": "83"
-                        },
-                        "productName": {
-                          "type": "string",
-                          "description": "Product Name",
-                          "example": "Булгур приготований"
-                        },
-                        "id": {
-                          "type": "string",
-                          "description": "Id product",
-                          "example": "5d51694802b2373622ff5549"
-                        }
-                      }
-                    }
-                  },
-                  "date": {
-                    "type": "number",
-                    "description": "Date",
-                    "example": "10.12.2022"
-                  },
-                  "owner": {
-                    "type": "string",
-                    "description": "Owner",
-                    "example": "63a473a9885e213257ca58dd"
-                  },
-                  "id": {
-                    "type": "string",
-                    "description": "Id product list",
-                    "example": "5d51694802b2373622ff5547"
-                  }
-                }
-              }
-            }
-        },
-
-        "MyProductsRequest": {
-          "type": "object",
-          "required": ["date"],
-          "properties": {
-            "date": {
-              "type": "number",
-              "description": "Date",
-              "example": "10.12.2022"
-            }
-          }
-        },
-        "MyProductsResponse": {   
-            "type": "array",
-            "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string",
-                "description": "Id product list",
-                "example": "5d51694802b2373622ff5547"
-              },
-              "productInfo": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "productWeight": {
-                      "type": "integer",
-                      "description": "Product Weight",
-                      "example": "100"
-                    },
-                    "productCalories": {
-                      "type": "integer",
-                      "description": "Product Calories",
-                      "example": "83"
-                    },
-                    "productName": {
-                      "type": "string",
-                      "description": "Product Name",
-                      "example": "Булгур приготований"
-                    },
-                    "id": {
-                      "type": "string",
-                      "description": "Id product",
-                      "example": "5d51694802b2373622ff5549"
-                    }
-                  }
-                }
-              },
-              "date": {
-                "type": "number",
-                "description": "Date",
-                "example": "10.12.2022"
-              },
-              "owner": {
-                "type": "string",
-                "description": "Owner",
-                "example": "63a473a9885e213257ca58dd"
-              }
-            }
-          }
-        },
-
-        "DeleteRequest": {
-          "type": "object",
-          "required": ["date"],
-          "properties": {
-            "date": {
-              "type": "number",
-              "description": "Date",
-              "example": "10.12.2022"
-            }
-          }
-        },
-        "DeleteResponse": {   
-            "type": "object",
-            "properties": {
-              "productName": {
-                "type": "string",
-                "description": "Product Name",
-                "example": "Булгур приготований"
-              },
-              "date": {
-                "type": "number",
-                "description": "Date",
-                "example": "10.12.2022"
-              },
-              "owner": {
-                "type": "string",
-                "description": "Owner",
-                "example": "63a473a9885e213257ca58dd"
-              },
-              "productWeight": {
-                "type": "integer",
-                "description": "Product Weight",
-                "example": "100"
-              },
-              "productCalories": {
-                "type": "integer",
-                "description": "Product Calories",
-                "example": "83"
-              }
-            }
-        }
-      },
-      "securitySchemes": {
-        "Bearer": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
-        }
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
+}
