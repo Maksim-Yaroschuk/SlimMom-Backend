@@ -12,7 +12,6 @@ const addMyProducts = async (req, res) => {
     productInfo: { $elemMatch: { productName } },
   });
   if (product) {
-    console.log(1);
     const index = product.productInfo.findIndex(
       (product) => product.productName === productName
     );
@@ -54,7 +53,6 @@ const addMyProducts = async (req, res) => {
   }
 
   if (await MyProducts.findOne({ date, owner: _id })) {
-    console.log(2);
     const productUpdate = await MyProducts.findOneAndUpdate(
       { date, owner: _id },
       {
@@ -77,7 +75,6 @@ const addMyProducts = async (req, res) => {
       .status(201)
       .json({ success: "success", code: 201, productUpdate });
   }
-  console.log(3);
 
   const productAdd = await MyProducts.create({
     date,
