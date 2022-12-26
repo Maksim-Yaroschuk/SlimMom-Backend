@@ -37,9 +37,14 @@ const addMyProducts = async (req, res) => {
       {
         $push: {
           productInfo: {
-            productCalories: newCalories.toString(),
-            productName,
-            productWeight: newWeight.toString(),
+            $each: [
+              {
+                productCalories: newCalories.toString(),
+                productName,
+                productWeight: newWeight.toString(),
+              },
+            ],
+            $position: 0,
           },
         },
       }
@@ -55,11 +60,13 @@ const addMyProducts = async (req, res) => {
       {
         $push: {
           productInfo: {
-            $each: [{
-              productCalories,
-              productName,
-              productWeight,
-            }],
+            $each: [
+              {
+                productCalories,
+                productName,
+                productWeight,
+              },
+            ],
             $position: 0,
           },
         },
