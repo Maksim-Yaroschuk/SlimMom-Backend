@@ -52,6 +52,10 @@ const joiGetMyProductSchema = Joi.object({
   date: Joi.date().format("DD.MM.YYYY").required(),
 });
 
+const joirefreshTokensSchema = Joi.object({
+  sid: Joi.string().required(),
+});
+
 module.exports = {
   joiGetDailyRateSchema,
   joiUpdateDailyRateSchema,
@@ -60,4 +64,5 @@ module.exports = {
   joiAddMyProductSchema,
   joiDeleteMyProductSchema,
   joiGetMyProductSchema,
+  joirefreshTokensSchema
 };

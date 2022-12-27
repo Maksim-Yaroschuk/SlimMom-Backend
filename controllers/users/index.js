@@ -3,6 +3,7 @@ const login = require("./login");
 const getCurrent = require("./getCurrent");
 const updateById = require("./updateById");
 const logout = require("./logout");
+const refreshTokens = require("./refreshTokens");
 
 module.exports = {
     signup,
@@ -10,4 +11,5 @@ module.exports = {
     getCurrent,
     logout,
     updateById,
+    refreshTokens
 };
