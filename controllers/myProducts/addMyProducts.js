@@ -11,8 +11,8 @@ const addMyProducts = async (req, res) => {
     owner: _id,
     productInfo: { $elemMatch: { productName } },
   });
+
   if (product) {
-    console.log(1);
     const index = product.productInfo.findIndex(
       (product) => product.productName === productName
     );
@@ -32,6 +32,7 @@ const addMyProducts = async (req, res) => {
         },
       }
     );
+    
     await MyProducts.findOneAndUpdate(
       { date, owner: _id },
       {
@@ -48,12 +49,16 @@ const addMyProducts = async (req, res) => {
       }
     );
 
-    return res.status(201).json({ success: "success", code: 201, product });
+    const newProduct = await MyProducts.findOne({
+      date,
+      owner: _id
+    })
+
+    return res.status(201).json({ success: "success", code: 201, newProduct });
   }
 
   if (await MyProducts.findOne({ date, owner: _id })) {
-    console.log(2);
-    const productUpdate = await MyProducts.findOneAndUpdate(
+    await MyProducts.findOneAndUpdate(
       { date, owner: _id },
       {
         $push: {
@@ -69,11 +74,15 @@ const addMyProducts = async (req, res) => {
       }
     );
 
+    const newProduct = await MyProducts.findOne({
+      date,
+      owner: _id
+    })
+
     return res
       .status(201)
-      .json({ success: "success", code: 201, productUpdate });
+      .json({ success: "success", code: 201, newProduct });
   }
-  console.log(3);
 
   const productAdd = await MyProducts.create({
     date,
@@ -84,7 +93,7 @@ const addMyProducts = async (req, res) => {
   return res.status(201).json({
     success: "success",
     code: 201,
-    data: { productAdd },
+    data: { productAdd }
   });
 };
 
