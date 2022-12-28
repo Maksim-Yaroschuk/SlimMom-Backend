@@ -76,7 +76,7 @@ const googleSignupRedirect = async (req, res) => {
   console.log(userUpdate);
 
   return res.redirect(
-    `${process.env.FRONTEND_URL}?name=${userUpdate.name}&email=${userUpdate.email}&token=${userUpdate.token}`
+    `${process.env.FRONTEND_URL}?name=${userUpdate.name}&email=${userUpdate.email}&token=${userUpdate.token}&userid=${userUpdate._id}`
   );
 };
 
@@ -145,9 +145,16 @@ const googleLoginRedirect = async (req, res) => {
   );
 };
 
+const updateUserGoogleAuth = async (req, res) => {
+  const userId = req.body.userid;
+  delete req.body.userid;
+  await User.findByIdAndUpdate(userId, { infouser: req.body });
+};
+
 module.exports = {
   googleAuthSignup,
   googleSignupRedirect,
   googleAuthLogin,
   googleLoginRedirect,
+  updateUserGoogleAuth,
 };

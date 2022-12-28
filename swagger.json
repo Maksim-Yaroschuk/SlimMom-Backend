@@ -345,7 +345,7 @@
         }
       }
     },
-    "/api/myProducts/listMyProduct": {
+    "/api/myProducts/": {
       "post": {
         "tags": ["MyProducts"],
         "summary": "Reviewing the list of products of the day for the day",
