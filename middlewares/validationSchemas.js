@@ -15,6 +15,7 @@ const joiUpdateDailyRateSchema = Joi.object({
   desiredWeight: Joi.number().required(),
   bloodType: Joi.number().required(),
   dailyRate: Joi.number().required(),
+  notAllowedProducts: Joi.array().items(Joi.string()),
   notAllowedProductsAll: Joi.array().items(Joi.string()),
 });
 
