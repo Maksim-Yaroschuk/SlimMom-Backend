@@ -32,19 +32,21 @@ const addMyProducts = async (req, res) => {
         },
       }
     );
-    
+
     await MyProducts.findOneAndUpdate(
       { date, owner: _id },
       {
         $push: {
           productInfo: {
-            $each: [{
-              productCalories: newCalories.toString(),
-              productName,
-              productWeight: newWeight.toString(),
-            }],
-            $position: 0
-          }
+            $each: [
+              {
+                productCalories: newCalories.toString(),
+                productName,
+                productWeight: newWeight.toString(),
+              },
+            ],
+            $position: 0,
+          },
         },
       }
     );
@@ -63,11 +65,13 @@ const addMyProducts = async (req, res) => {
       {
         $push: {
           productInfo: {
-            $each: [{
-              productCalories,
-              productName,
-              productWeight,
-            }],
+            $each: [
+              {
+                productCalories,
+                productName,
+                productWeight,
+              },
+            ],
             $position: 0,
           },
         },
