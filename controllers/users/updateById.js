@@ -2,9 +2,9 @@ const { NotFound } = require('http-errors');
 const { User } = require("../../models");
 
 const updateById = async (req, res) => {
-    const { id } = req.params; 
+    const { _id } = req.user; 
     const {currentWeight, height, age, desiredWeight, bloodType, dailyRate, notAllowedProducts, notAllowedProductsAll} = req.body;
-    const result = await User.findByIdAndUpdate(id, {infouser: {currentWeight, height, age, desiredWeight, bloodType, dailyRate, notAllowedProducts, notAllowedProductsAll}}, {new: true});
+    const result = await User.findByIdAndUpdate(_id, {infouser: {currentWeight, height, age, desiredWeight, bloodType, dailyRate, notAllowedProducts, notAllowedProductsAll}}, {new: true});
     if(!result) {
       throw new NotFound("Not found");
     }
