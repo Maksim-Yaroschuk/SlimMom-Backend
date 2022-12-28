@@ -10,6 +10,7 @@ const {
   joiAddMyProductSchema,
   joiDeleteMyProductSchema,
   joiGetMyProductSchema,
+  joirefreshTokensSchema
 } = require("./validationSchemas");
 
 module.exports = {
@@ -24,4 +25,5 @@ module.exports = {
   joiAddMyProductSchema,
   joiDeleteMyProductSchema,
   joiGetMyProductSchema,
+  joirefreshTokensSchema
 };
