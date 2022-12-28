@@ -88,7 +88,7 @@ const addMyProducts = async (req, res) => {
       .json({ success: "success", code: 201, newProduct });
   }
 
-  const productAdd = await MyProducts.create({
+  const newProduct = await MyProducts.create({
     date,
     owner: _id,
     productInfo: [{ productCalories, productName, productWeight }],
@@ -97,7 +97,7 @@ const addMyProducts = async (req, res) => {
   return res.status(201).json({
     success: "success",
     code: 201,
-    data: { productAdd }
+    newProduct
   });
 };
 
