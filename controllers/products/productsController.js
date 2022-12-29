@@ -27,12 +27,21 @@ const getAllProductsByQuery = async (req, res, next) => {
     const { query: { title, limit = 10 } } = req;
     const titleFromUrl = decodeURI(title).trim();
     const products = await Product.find({
+      $or: [
+          { 'title.ua': { $regex: `${titleFromUrl} `, $options: 'i' } },
+      ],
+  }).limit(limit);
+    if (products.length === 0) {
+      const newProducts = await Product.find({
         $or: [
-            { 'title.ua': { $regex: titleFromUrl, $options: 'i' } },
+            { 'title.ua': { $regex: `${titleFromUrl}`, $options: 'i' } },
         ],
     }).limit(limit);
-    if (products.length === 0) {
+      if (newProducts.length === 0) {
         return next(createNotFoundError());
+      }
+    return res.status(200).json({ data: newProducts });
+
     };
     return res.status(200).json({ data: products });
 };
