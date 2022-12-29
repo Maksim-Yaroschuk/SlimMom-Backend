@@ -52,22 +52,3 @@ module.exports = {
     getDailyRateUserController,
     getAllProductsByQuery,
 };
-
-
-// const products = await Product.find({
-//   $or: [
-//       { 'title.ua': { $regex: `${titleFromUrl} `, $options: 'i' } },
-//   ],
-// }).limit(limit);
-// if (products.length === 0) {
-//   const newProducts = await Product.find({
-//     $or: [
-//         { 'title.ua': { $regex: `${titleFromUrl}`, $options: 'i' } },
-//     ],
-// }).limit(limit);
-//   if (newProducts.length === 0) {
-//     return next(createNotFoundError());
-//   }
-// return res.status(200).json({ data: newProducts });
-
-// };
